@@ -2,26 +2,24 @@ package main
 
 import (
 	"encoding/csv"
-	"log"
+	"fmt"
 	"os"
 )
 
-func readCsvFile(filePath string) [][]string {
-	f, err := os.Open(filePath)
-	if err != nil {
-		log.Fatal("Unable to read input file "+filePath, err)
-	}
-	defer f.Close()
-
-	csvReader := csv.NewReader(f)
-	records, err := csvReader.ReadAll()
-	if err != nil {
-		log.Fatal("Unable to parse file as CSV for "+filePath, err)
-	}
-
-	return records
-}
-
 func main() {
+	// åpner CSV filen
+	fd, error := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
+	if error != nil {
+		fmt.Println(error)
+	}
+	fmt.Println("Åpnet filen uten problemer")
+	defer fd.Close()
 
+	// Leser CSV filen
+	fileReader := csv.NewReader(fd)
+	records, error := fileReader.ReadAll()
+	if error != nil {
+		fmt.Println(error)
+	}
+	fmt.Println(records)
 }
