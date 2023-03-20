@@ -61,7 +61,7 @@ func main() {
 			continue
 		}
 		fahrenheit := (cel * 1.8) + 32.0
-		record[5] = strconv.FormatFloat(fahrenheit, 'f', 2, 64)
+		record[4] = strconv.FormatFloat(fahrenheit, 'f', 2, 64)
 
 		//skriver til output filen
 		err = writer.Write(record)
