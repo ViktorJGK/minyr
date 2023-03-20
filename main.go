@@ -1,11 +1,9 @@
 package main
 
 import (
-	"encoding/csv"
+	"bufio"
 	"fmt"
-	"io"
 	"os"
-	"strconv"
 )
 
 // definer flag-variablene
@@ -22,59 +20,25 @@ func init() {
 	*/
 
 }
-
 func main() {
-	// Åpne csv filen
-	inputFilename := "kjevik-temp-celsius-20220318-20230318.csv"
-	inputFile, err := os.Open(inputFilename)
-	if err != nil {
-		fmt.Printf("kunne ikke åpne filen %s: %s\n", inputFilename, err)
-	}
-	defer inputFile.Close()
+	var input string
+	scanner := bufio.NewScanner(os.Stdin)
 
-	// Lager outputfilen for skriving
-	outputFilename := "kjevik-temp-fahr-20220318-20230318.csv"
-	outputFile, err := os.Create(outputFilename)
-	if err != nil {
-		fmt.Printf("kunne ikke oprette filen %s: %s\n", outputFilename, err)
-	}
+	for scanner.Scan() {
+		input = scanner.Text()
+		if input == "q" || input == "exit" {
+			fmt.Println("exit")
+			os.Exit(0)
+		} else if input == "convert" {
+			fmt.Println("Konverterer alle målingene gitt i grader Celsius til grader Fahrenheit.")
+			// funksjon som gjør åpner fil, leser linjer, gjør endringer og lagrer nye linjer i en ny fil
 
-	//lager CSV-leser og skriver
-	reader := csv.NewReader(inputFile)
-	writer := csv.NewWriter(outputFile)
+			// flere else-if setninger
+		} else {
+			fmt.Println("Venligst velg convert, average eller exit:")
 
-	// leser hver rad av inputfilen og konverter cel til fahr og lager ny fil med fahr
-	for {
-		record, err := reader.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			fmt.Println("kunne ikke lese rad:", err)
-			continue
 		}
 
-		//converterer celsius til fahrenheit
-		cel, err := strconv.ParseFloat(record[4], 64)
-		if err != nil {
-			fmt.Println("ugyldig temperaturverdi", err)
-			continue
-		}
-		fahrenheit := (cel * 1.8) + 32.0
-		record[4] = strconv.FormatFloat(fahrenheit, 'f', 2, 64)
-
-		//skriver til output filen
-		err = writer.Write(record)
-		if err != nil {
-			fmt.Println("kunne ikke skrive rad:", err)
-			continue
-		}
-	}
-	writer.Flush()
-	if err := writer.Error(); err != nil {
-		fmt.Println("kunne ikke skrive til fil:", err)
-		return
 	}
 
-	fmt.Println("Konveretringen fra celsius til fahrenheit er fulført")
 }
