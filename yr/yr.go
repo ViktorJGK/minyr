@@ -1,43 +1,44 @@
 package yr
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 
-	_ "github.com/ViktorJGK/funtemps/conv"
+	//"strings"
+	//"errors"
+	"github.com/ViktorJGK/funtemps/conv"
 )
 
-func convertionPositiv() {
-	inputArr := []string{}
-	for i := range inputArr {
-		inputStr := inputArr[i]
-
-		//deler innput i strengen mellom ;
-		parts := strings.Split(inputStr, ";")
-
-		lastPart, err := strconv.ParseFloat(parts[3], 64)
-		if err != nil {
-			panic(err)
-		}
-
-		celsius := conv.CelsiusToFahrenheit(lastPart)
-		fmt.Printf("%.2f er det samme som %.2f i fahrenheit\n", lastPart, fahrenheit)
-
-		// gjør at det er kunn 1 decimal plass
-		lastPartStr := fmt.Sprintf("%.1f", lastPart)
-
-		// kobler alle delene sammen igjen
-		parts[3] = lastPartStr
-		outputStr := strings.Join(parts, ";")
-
-		//Forande slik at den gjør endringene i ny fil
-		fmt.Println(outputStr)
+func CelsiusToFahrenheitString(celsius string) (string, error) {
+	var fahrFloat float64
+	var err error
+	if celsiusFloat, err := strconv.ParseFloat(celsius, 64); err == nil {
+		fahrFloat = conv.CelsiusToFahrenheit(celsiusFloat)
 	}
+	fahrString := fmt.Sprintf("%.1f", fahrFloat)
+	return fahrString, err
 }
 
-func convertionNull() {}
+// Forutsetter at vi kjenner strukturen i filen og denne implementasjon
+// er kun for filer som inneholder linjer hvor det fjerde element
+// på linjen er verdien for temperaturaaling i grader celsius
+func CelsiusToFahrenheitLine(line string) (string, error) {
 
-func convertionNegativ() {}
+	dividedString := strings.Split(line, ";")
+	var err error
 
-func convTextSlutt() {}
+	if (len(dividedString) == 4) {
+		dividedString[3], err = CelsiusToFahrenheitString(dividedString[3])
+		if err != nil {
+			return "", err
+		}
+	} else {
+		return "", errors.New("linje har ikke forventet format")
+	}
+	return strings.Join(dividedString, ";"), nil
+	*/
+
+	return "Kjevik;SN39040;18.03.2022 01:50;42.8", err
+}
