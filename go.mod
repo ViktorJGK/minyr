@@ -1,3 +1,5 @@
-module github.com/ViktorJGK/funtemps/conv
+module github.com/ViktorJGK/minyr
 
-go 1.20
+go 1.18
+
+require github.com/ViktorJGK/funtemps/conv

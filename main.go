@@ -5,11 +5,13 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ViktorJGK/funtemps/conv"
 )
 
 func main() {
-	src, err := os.Open("table.csv")
-	//src, err := os.Open("/home/janisg/minyr/kjevik-temp-celsius-20220318-20230318.csv")
+	src, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
+	//src, err := os.Open("/home/viktor/minyr/kjevik-temp-celsius-20220318-20230318.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
