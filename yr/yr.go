@@ -8,7 +8,7 @@ import (
 
 	//"strings"
 	//"errors"
-	"github.com/ViktorJGK/funtemps/conv"
+	"github.com/ViktorJGK/misc/conv"
 )
 
 func CelsiusToFahrenheitString(celsius string) (string, error) {

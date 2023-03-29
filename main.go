@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ViktorJGK/funtemps/conv"
+	"github.com/ViktorJGK/misc/conv"
 )
 
 func main() {
