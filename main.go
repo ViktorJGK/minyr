@@ -1,12 +1,12 @@
 package main
 
 import (
+	"conv"
+	"fmt"
 	"io"
 	"log"
 	"os"
 	"strings"
-
-	"github.com/ViktorJGK/misc/conv"
 )
 
 func main() {
@@ -16,6 +16,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer src.Close()
+
+	outputFile, err := os.Create("kjevik-temp-fahrenheit-20220318-20230318.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	log.Println(src)
 
 	var buffer []byte
@@ -37,7 +43,8 @@ func main() {
 			if len(elementArray) > 3 {
 				celsius := elementArray[3]
 				fahr := conv.CelsiusToFahrenheit(celsius)
-				log.Println(elementArray[3])
+				outputLine := fmt.Sprintf("%s;%s\n", celsius, fahr)
+				outputFile.Write([]byte(outputLine))
 			}
 			linebuf = nil
 		} else {
