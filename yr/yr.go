@@ -1,14 +1,11 @@
 package yr
 
 import (
+	"conv"
 	"errors"
 	"fmt"
 	"strconv"
 	"strings"
-
-	//"strings"
-	//"errors"
-	"github.com/ViktorJGK/misc/conv"
 )
 
 func CelsiusToFahrenheitString(celsius string) (string, error) {

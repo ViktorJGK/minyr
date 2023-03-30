@@ -1,0 +1,8 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <GoCodeStyleSettings>
+      <option name="ADD_PARENTHESES_FOR_SINGLE_IMPORT" value="true" />
+      <option name="LOCAL_PACKAGE_PREFIXES" />
+    </GoCodeStyleSettings>
+  </code_scheme>
+</component>

@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+
+	// åpner orginal filen
 	src, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
 	//src, err := os.Open("/home/viktor/minyr/kjevik-temp-celsius-20220318-20230318.csv")
 	if err != nil {
@@ -17,6 +19,7 @@ func main() {
 	}
 	defer src.Close()
 
+	// lager output filen
 	outputFile, err := os.Create("kjevik-temp-fahrenheit-20220318-20230318.csv")
 	if err != nil {
 		log.Fatal(err)
