@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -44,9 +45,14 @@ func main() {
 			// Her
 			elementArray := strings.Split(string(linebuf), ";")
 			if len(elementArray) > 3 {
-				celsius := elementArray[3]
+				celsiusStr := elementArray[3]
+				celsius, err := strconv.ParseFloat(celsiusStr, 64)
+				if err != nil {
+					log.Printf("Feil ved konvertering celsius til float: %v\n", err)
+					continue
+				}
 				fahr := conv.CelsiusToFahrenheit(celsius)
-				outputLine := fmt.Sprintf("%s;%s\n", celsius, fahr)
+				outputLine := fmt.Sprintf("%s;%s\n", celsiusStr, strconv.FormatFloat(fahr, 'f', -1, 64))
 				outputFile.Write([]byte(outputLine))
 			}
 			linebuf = nil
