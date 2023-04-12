@@ -1,13 +1,11 @@
 package main
 
 import (
-	"conv"
+	"bufio"
 	"fmt"
-	"io"
+	"github.com/ViktorJGK/minyr/yr"
 	"log"
 	"os"
-	"strconv"
-	"strings"
 )
 
 func main() {
@@ -25,7 +23,63 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer outputFile.Close()
 
+	//Leser data fra kilde filen til og skriver til den nye filen
+	scanner := bufio.NewScanner(src)
+	for scanner.Scan() {
+		line := scanner.Text()
+		outputLine := fmt.Sprintf("%s\n", line)
+		_, err = outputFile.WriteString(outputLine)
+		if err != nil {
+			log.Printf("Error writing to output file: %v\n", err)
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("Kopiering vellykket. Results written to kjevik-temp-fahr-20220318-20230318.csv")
+
+	// Update the last element in the output file
+	outputFile, err = os.OpenFile("kjevik-temp-fahr-20220318-20230318.csv", os.O_RDWR, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer outputFile.Close()
+
+	scanner = bufio.NewScanner(outputFile)
+	var lines []string
+	for scanner.Scan() {
+		line := scanner.Text()
+		convertedLine, err := yr.CelsiusToFahrenheitLine(line)
+		if err != nil {
+			log.Printf("Error converting Celsius to Fahrenheit for line '%s': %v\n", line, err)
+			continue
+		}
+		lines = append(lines, convertedLine)
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	outputFile.Truncate(0)
+	outputFile.Seek(0, 0)
+
+	for _, line := range lines {
+		outputLine := fmt.Sprintf("%s\n", line)
+		_, err = outputFile.WriteString(outputLine)
+		if err != nil {
+			log.Printf("Error writing to output file: %v\n", err)
+		}
+	}
+
+	log.Println("konversjon vellykket")
+}
+
+/*
 	log.Println(src)
 
 	var buffer []byte
@@ -38,6 +92,9 @@ func main() {
 			log.Fatal(err)
 		}
 
+
+
+/*
 		bytesCount++
 		//log.Printf("%c ", buffer[:n])
 		if buffer[0] == 0x0A {
@@ -64,5 +121,5 @@ func main() {
 			break
 		}
 	}
-
 }
+*/

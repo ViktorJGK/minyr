@@ -1,9 +1,9 @@
 package yr
 
 import (
-	"conv"
 	"errors"
 	"fmt"
+	"github.com/ViktorJGK/funtemps/conv"
 	"strconv"
 	"strings"
 )
