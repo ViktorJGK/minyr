@@ -10,22 +10,21 @@ import (
 
 func main() {
 
-	// åpner orginal filen
+	// Åpner src filen
 	src, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
-	//src, err := os.Open("/home/viktor/minyr/kjevik-temp-celsius-20220318-20230318.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer src.Close()
 
-	// lager output filen
-	outputFile, err := os.Create("kjevik-temp-fahrenheit-20220318-20230318.csv")
+	// Lager output filen
+	outputFile, err := os.Create("kjevik-temp-fahr-20220318-20230318.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer outputFile.Close()
 
-	//Leser data fra kilde filen til og skriver til den nye filen
+	// Leser data fra src filen og skriver til output filen
 	scanner := bufio.NewScanner(src)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -40,7 +39,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Println("Kopiering vellykket. Results written to kjevik-temp-fahr-20220318-20230318.csv")
+	log.Println("Copying complete. Results written to kjevik-temp-fahr-20220318-20230318.csv")
 
 	// Update the last element in the output file
 	outputFile, err = os.OpenFile("kjevik-temp-fahr-20220318-20230318.csv", os.O_RDWR, 0644)
@@ -59,6 +58,7 @@ func main() {
 			continue
 		}
 		lines = append(lines, convertedLine)
+		
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -76,7 +76,7 @@ func main() {
 		}
 	}
 
-	log.Println("konversjon vellykket")
+	log.Println("Conversion complete. Results written to kjevik-temp-fahr-20220318-20230318.csv")
 }
 
 /*
