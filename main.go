@@ -10,7 +10,36 @@ import (
 	"strings"
 )
 
+func minyrKommando() {
+	fmt.Println("velg en kommando:")
+	fmt.Println("'convert' for å gjennomføre konverteringen")
+	fmt.Println("'j' for å generere filen på nytt")
+	fmt.Println("'n' for å avslutte")
+	fmt.Print("Kommando: ")
+	var input string
+	fmt.Scanln(&input)
+
+	switch input {
+	case "convert":
+		// Kode for å gjennomføre konverteringen
+		fmt.Println("Konvertering pågår...")
+	case "j":
+		// Kode for å generere filen på nytt
+		fmt.Println("Genererer filen på nytt...")
+	case "n":
+		// Kode for å avslutte programmet
+		fmt.Println("Avslutter programmet...")
+		os.Exit(0)
+	default:
+		fmt.Println("Ugyldig kommando.")
+	}
+
+}
 func main() {
+
+	if len(os.Args) > 1 && os.Args[1] == "minyr" {
+		minyrKommando()
+	}
 
 	// Åpner src filen
 	src, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")

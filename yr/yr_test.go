@@ -42,5 +42,25 @@ func TestCelsiusToFahrenheitLine(t *testing.T) {
 			t.Errorf("expected %s, got: %s", tc.want, got)
 		}
 	}
+}
 
+func TestCountLines(t *testing.T) {
+	type test struct {
+		filePath string
+		want     int
+	}
+	tests := []test{
+		{filePath: "../kjevik-temp-celsius-20220318-20230318.csv", want: 16756},
+	}
+
+	for _, tc := range tests {
+		got, err := CountLines(tc.filePath)
+		if err != nil {
+			t.Errorf("failed to count lines in %s: %v", tc.filePath, err)
+			continue
+		}
+		if tc.want != got {
+			t.Errorf("expected %d lines in %s, got: %d", tc.want, tc.filePath, got)
+		}
+	}
 }

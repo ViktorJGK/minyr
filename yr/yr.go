@@ -1,9 +1,11 @@
 package yr
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"github.com/ViktorJGK/funtemps/conv"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -37,4 +39,24 @@ func CelsiusToFahrenheitLine(line string) (string, error) {
 	return strings.Join(dividedString, ";"), nil
 
 	return "Kjevik;SN39040;18.03.2022 01:50;42.8", err
+}
+
+func CountLines(filePath string) (int, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return 0, err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	lineCount := 0
+	for scanner.Scan() {
+		lineCount++
+	}
+
+	if err := scanner.Err(); err != nil {
+		return 0, err
+	}
+
+	return lineCount, nil
 }
