@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -214,4 +215,24 @@ func fAverage() {
 		return
 	}
 	fmt.Printf("Average Temperature: %.2f\n", average)
+}
+
+func automatiskMinyr() {
+	// Build the executable
+	cmd := exec.Command("go", "build", "-o", "minyr", "main.go")
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Move the executable to a directory in PATH
+	cmd = exec.Command("mv", "minyr", "/usr/local/bin/")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err = cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("minyr executable installed in /usr/local/bin directory")
 }
