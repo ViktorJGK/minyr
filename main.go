@@ -33,7 +33,7 @@ func main() {
 		outputLine := fmt.Sprintf("%s\n", line)
 		_, err = outputFile.WriteString(outputLine)
 		if err != nil {
-			log.Printf("Error writing to output file: %v\n", err)
+			log.Printf("feil under skriving til outputfil: %v\n", err)
 		}
 	}
 
@@ -41,9 +41,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Println("Copying complete. Results written to kjevik-temp-fahr-20220318-20230318.csv")
+	log.Println("Kopiering vellykket")
 
-	// Update the last element in the output file
+	// Oppdaterer outputfilen
 	outputFile, err = os.OpenFile("kjevik-temp-fahr-20220318-20230318.csv", os.O_RDWR, 0644)
 	if err != nil {
 		log.Fatal(err)
@@ -57,7 +57,7 @@ func main() {
 		line := scanner.Text()
 		convertedLine, err := yr.CelsiusToFahrenheitLine(line)
 		if err != nil {
-			log.Printf("Error converting Celsius to Fahrenheit for line '%s': %v\n", line, err)
+			log.Printf("Feil for konvertering av Celsius til Fahrenheit i linje: '%s': %v\n", line, err)
 			continue
 		}
 		lines = append(lines, convertedLine)
@@ -74,38 +74,39 @@ func main() {
 		outputLine := fmt.Sprintf("%s\n", line)
 		_, err = outputFile.WriteString(outputLine)
 		if err != nil {
-			log.Printf("Error writing to output file: %v\n", err)
+			log.Printf("Feil under skriving til outputfil: %v\n", err)
 		}
 	}
 
-	log.Println("Conversion complete. Results written to kjevik-temp-fahr-20220318-20230318.csv")
+	log.Println("Konversjon vellykket")
 
-	// Read the contents of file2
+	// Leser outputfilen
 	content, err := ioutil.ReadFile("kjevik-temp-fahr-20220318-20230318.csv")
 	if err != nil {
-		fmt.Println("Error reading file:", err)
+		fmt.Println("Feil ved lesing av fil:", err)
 		return
 	}
 
-	// Convert the content to a string
+	// konverterer innholdet til string
 	contentStr := string(content)
 
-	// Find the index of the string to be replaced
+	// Leter etter linje å erstatte
 	index := strings.Index(contentStr, "Data er gyldig per 18.03.2023 (CC BY 4.0), Meteorologisk institutt (MET);;;0.0")
 	if index == -1 {
-		fmt.Println("String not found in file")
+		fmt.Println("String ikke funnet i filen")
 		return
 	}
 
-	// Replace the string with the desired text
-	newContentStr := contentStr[:index] + "Data er gyldig per 18.03.2023 (CC BY 4.0), Meteorologisk institutt (MET);endringen er gjort av Viktor JG Kalhovd" + contentStr[index+len("Data er gyldig per 18.03.2023 (CC BY 4.0), Meteorologisk institutt (MET);;;0.0"):]
+	// Erstatter stringen med ønsket string
+	newContentStr := contentStr[:index] + "Data er gyldig per 18.03.2023 (CC BY 4.0), Meteorologisk institutt (MET);endringen er gjort av Viktor J.G Kalhovd" + contentStr[index+len("Data er gyldig per 18.03.2023 (CC BY 4.0), Meteorologisk institutt (MET);;;0.0"):]
 
-	// Write the updated content back to file2
+	// Skriver stringen til outputfilen
 	err = ioutil.WriteFile("kjevik-temp-fahr-20220318-20230318.csv", []byte(newContentStr), 0644)
 	if err != nil {
-		fmt.Println("Error writing to file:", err)
+		fmt.Println("Feil lesing til fil:", err)
 		return
 	}
 
-	fmt.Println("String replaced successfully!")
+	fmt.Println("String er byttet")
+	fmt.Println("Filen kjevik celsius har blit konvertert til fahrenheit i den nye filen: kjevik-temp-fahr-20220318-20230318.csv")
 }
