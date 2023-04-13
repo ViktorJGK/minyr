@@ -58,7 +58,6 @@ func main() {
 			continue
 		}
 		lines = append(lines, convertedLine)
-		
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -78,48 +77,3 @@ func main() {
 
 	log.Println("Conversion complete. Results written to kjevik-temp-fahr-20220318-20230318.csv")
 }
-
-/*
-	log.Println(src)
-
-	var buffer []byte
-	var linebuf []byte // nil
-	buffer = make([]byte, 1)
-	bytesCount := 0
-	for {
-		_, err := src.Read(buffer)
-		if err != nil && err != io.EOF {
-			log.Fatal(err)
-		}
-
-
-
-/*
-		bytesCount++
-		//log.Printf("%c ", buffer[:n])
-		if buffer[0] == 0x0A {
-			log.Println(string(linebuf))
-			// Her
-			elementArray := strings.Split(string(linebuf), ";")
-			if len(elementArray) > 3 {
-				celsiusStr := elementArray[3]
-				celsius, err := strconv.ParseFloat(celsiusStr, 64)
-				if err != nil {
-					log.Printf("Feil ved konvertering celsius til float: %v\n", err)
-					continue
-				}
-				fahr := conv.CelsiusToFahrenheit(celsius)
-				outputLine := fmt.Sprintf("%s;%s\n", celsiusStr, strconv.FormatFloat(fahr, 'f', -1, 64))
-				outputFile.Write([]byte(outputLine))
-			}
-			linebuf = nil
-		} else {
-			linebuf = append(linebuf, buffer[0])
-		}
-		//log.Println(string(linebuf))
-		if err == io.EOF {
-			break
-		}
-	}
-}
-*/
