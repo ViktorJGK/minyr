@@ -1,6 +1,3 @@
-//go:build generate
-// +build generate
-
 package main
 
 import (
@@ -12,10 +9,6 @@ import (
 	"os"
 	"strings"
 )
-
-//skal godkjenne minyr kommando på kompilering av kode
-//go:generate go build -o minyr main.go
-//go:generate mv minyr /usr/local/bin
 
 func main() {
 
