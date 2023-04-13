@@ -7,10 +7,9 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 )
-
-//go:generate go build -o minyr main.go && mv main minyr && export PATH=$(pwd):$PATH
 
 func main() {
 	fmt.Println("q/exit for å gå ut")
@@ -216,4 +215,31 @@ func fAverage() {
 		return
 	}
 	fmt.Printf("Average Temperature: %.2f\n", average)
+}
+
+func minyrKjør() {
+	// Kompilerer main.go filen ved hjelp av 'go build' kommandoen
+	cmd := exec.Command("go", "build", "main.go")
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("Kompilering feilet:", err)
+		return
+	}
+
+	// Sjekker om den kompilerte filen eksisterer
+	if _, err := os.Stat("main"); os.IsNotExist(err) {
+		fmt.Println("Kompilert fil ble ikke funnet")
+		return
+	}
+
+	// Kjører det kompilerte programmet
+	cmd = exec.Command("./main")
+	err = cmd.Run()
+	if err != nil {
+		fmt.Println("Kjøring av programmet feilet:", err)
+		return
+	}
+
+	// Eventuell annen logikk eller handlinger etter kjøring av programmet
+	fmt.Println("Programmet ble kjørt suksessfullt")
 }
