@@ -21,11 +21,22 @@ func minyrKommando() {
 
 	switch input {
 	case "convert":
-		// Kode for å gjennomføre konverteringen
+		//konverterer celsius fil til ny fahrenheit fil
 		fmt.Println("Konvertering pågår...")
+		main()
 	case "j":
-		// Kode for å generere filen på nytt
-		fmt.Println("Genererer filen på nytt...")
+		//sjekker om filen har blit laget fra før og genererer den på nytt
+		filename := "kjevik-temp-fahr-20220318-20230318.csv"
+		_, err := os.Stat(filename)
+		if err == nil {
+			fmt.Println("filen eksisterer")
+			fmt.Println("genererer filen på nytt")
+			main()
+		} else {
+			if os.IsNotExist(err) {
+				fmt.Println("Filen eksisterer ikke")
+			}
+		}
 	case "n":
 		// Kode for å avslutte programmet
 		fmt.Println("Avslutter programmet...")
@@ -33,8 +44,8 @@ func minyrKommando() {
 	default:
 		fmt.Println("Ugyldig kommando.")
 	}
-
 }
+
 func main() {
 
 	if len(os.Args) > 1 && os.Args[1] == "minyr" {
