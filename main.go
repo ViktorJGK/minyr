@@ -186,32 +186,32 @@ func konvert() {
 }
 
 func cAverage() {
-	// Åpner src filen
-	src, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
+	// Åpner cel filen
+	cel, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer src.Close()
+	defer cel.Close()
 
-	average, err := yr.AverageTemp(src) // Pass the opened file to yr.CelsiusAverage()
+	average, err := yr.AverageTemp(cel)
 	if err != nil {
 		log.Printf("Feil under gjennomsnittstemperatur måling: %v\n", err)
 		return
 	}
-	fmt.Printf("Average Temperature: %.2f\n", average) // Print average temperature
+	fmt.Printf("Average Temperature: %.2f\n", average)
 }
 func fAverage() {
-	// Åpner src filen
-	src, err := os.Open("kjevik-temp-fahr-20220318-20230318.csv")
+	// Åpner fahr filen
+	fahr, err := os.Open("kjevik-temp-fahr-20220318-20230318.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer src.Close()
+	defer fahr.Close()
 
-	average, err := yr.AverageTemp(src) // Pass the opened file to yr.CelsiusAverage()
+	average, err := yr.AverageTemp(fahr)
 	if err != nil {
 		log.Printf("Feil under gjennomsnittstemperatur måling: %v\n", err)
 		return
 	}
-	fmt.Printf("Average Temperature: %.2f\n", average) // Print average temperature
+	fmt.Printf("Average Temperature: %.2f\n", average)
 }
