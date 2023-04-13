@@ -227,8 +227,16 @@ func minyrKjør() {
 	}
 
 	// Sjekker om den kompilerte filen eksisterer
-	if _, err := os.Stat("main"); os.IsNotExist(err) {
+	if _, err := os.Stat("./main"); os.IsNotExist(err) {
 		fmt.Println("Kompilert fil ble ikke funnet")
+		return
+	}
+
+	// Setter tillatelse til å kjøre på den kompilerte filen
+	cmd = exec.Command("chmod", "+x", "./main")
+	err = cmd.Run()
+	if err != nil {
+		fmt.Println("Feil ved setting av kjøretillatelse:", err)
 		return
 	}
 
