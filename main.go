@@ -10,48 +10,77 @@ import (
 	"strings"
 )
 
-func minyrKommando() {
-	fmt.Println("velg en kommando:")
-	fmt.Println("'convert' for å gjennomføre konverteringen")
-	fmt.Println("'j' for å generere filen på nytt")
-	fmt.Println("'n' for å avslutte")
-	fmt.Print("Kommando: ")
+func main() {
+	fmt.Println("q/exit for å gå ut")
+	fmt.Println("convert: for å konvertere filen")
+	fmt.Println("average: for å få gjennomsnitsstemperatur")
+	fmt.Println("")
 	var input string
-	fmt.Scanln(&input)
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		input = scanner.Text()
+		if input == "q" || input == "exit" {
+			fmt.Println("exit")
+			os.Exit(0)
+		} else if input == "convert" {
+			filePath := "kjevik-temp-fahr-20220318-20230318.csv"
+			fileInfo, err := os.Stat(filePath)
+			if err != nil {
+				fmt.Println("feil", err)
+				fmt.Println("")
+			}
 
-	switch input {
-	case "convert":
-		//konverterer celsius fil til ny fahrenheit fil
-		fmt.Println("Konvertering pågår...")
-		main()
-	case "j":
-		//sjekker om filen har blit laget fra før og genererer den på nytt
-		filename := "kjevik-temp-fahr-20220318-20230318.csv"
-		_, err := os.Stat(filename)
-		if err == nil {
-			fmt.Println("filen eksisterer")
-			fmt.Println("genererer filen på nytt")
-			main()
-		} else {
-			if os.IsNotExist(err) {
-				fmt.Println("Filen eksisterer ikke")
+			if fileInfo != nil {
+				fmt.Println("fil eksisterer ønsker du å generere den på nytt? j/n")
+				scanner.Scan()
+				input = scanner.Text()
+				if input == "j" {
+					fmt.Println("genererer filen på nytt")
+					konvert()
+					fmt.Println("filen er generert på nytt")
+					fmt.Println("")
+					fmt.Println("q/exit for å gå ut")
+					fmt.Println("convert: for å konvertere filen")
+					fmt.Println("average: for å få gjennomsnitsstemperatur")
+					fmt.Println("")
+
+				} else if input == "n" {
+					fmt.Println("gjør ingenting med filen")
+					fmt.Println("")
+					fmt.Println("q/exit for å gå ut")
+					fmt.Println("convert: for å konvertere filen")
+					fmt.Println("average: for å få gjennomsnitsstemperatur")
+					fmt.Println("")
+				}
+			} else {
+				fmt.Println("Konverterer alle målingene gitt i grader Celsius til grade Fahrenheit.")
+				fmt.Println("")
+				konvert()
+			}
+
+		}
+
+		if input == "average" {
+			fmt.Println("vil du se gjennomsnitt temperetur for celsius eller fahrenheit?")
+			fmt.Println("c: for celsius")
+			fmt.Println("f: for fahrenheit")
+			fmt.Println("")
+
+			scanner.Scan()
+			input = scanner.Text()
+			if input == "c" {
+				fmt.Println("Gjennomsnittstemperatur i Celsius er følgende:")
+				cAverage()
+
+			} else if input == "f" {
+				fmt.Println("Gjennom snitt temperatur i Fahrenheit er følgene:")
+				fAverage()
 			}
 		}
-	case "n":
-		// Kode for å avslutte programmet
-		fmt.Println("Avslutter programmet...")
-		os.Exit(0)
-	default:
-		fmt.Println("Ugyldig kommando.")
 	}
 }
 
-func main() {
-
-	if len(os.Args) > 1 && os.Args[1] == "minyr" {
-		minyrKommando()
-	}
-
+func konvert() {
 	// Åpner src filen
 	src, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
 	if err != nil {
@@ -152,7 +181,37 @@ func main() {
 		fmt.Println("Feil lesing til fil:", err)
 		return
 	}
+	log.Println("String er byttet")
+	log.Println("Filen kjevik celsius har blit konvertert til fahrenheit i den nye filen: kjevik-temp-fahr-20220318-20230318.csv")
+}
 
-	fmt.Println("String er byttet")
-	fmt.Println("Filen kjevik celsius har blit konvertert til fahrenheit i den nye filen: kjevik-temp-fahr-20220318-20230318.csv")
+func cAverage() {
+	// Åpner src filen
+	src, err := os.Open("kjevik-temp-celsius-20220318-20230318.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer src.Close()
+
+	average, err := yr.AverageTemp(src) // Pass the opened file to yr.CelsiusAverage()
+	if err != nil {
+		log.Printf("Feil under gjennomsnittstemperatur måling: %v\n", err)
+		return
+	}
+	fmt.Printf("Average Temperature: %.2f\n", average) // Print average temperature
+}
+func fAverage() {
+	// Åpner src filen
+	src, err := os.Open("kjevik-temp-fahr-20220318-20230318.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer src.Close()
+
+	average, err := yr.AverageTemp(src) // Pass the opened file to yr.CelsiusAverage()
+	if err != nil {
+		log.Printf("Feil under gjennomsnittstemperatur måling: %v\n", err)
+		return
+	}
+	fmt.Printf("Average Temperature: %.2f\n", average) // Print average temperature
 }
