@@ -53,8 +53,14 @@ func main() {
 	// konverterer celsius til fahrenheit
 	scanner = bufio.NewScanner(outputFile)
 	var lines []string
+	isFirstLine := true
 	for scanner.Scan() {
 		line := scanner.Text()
+		if isFirstLine {
+			lines = append(lines, line)
+			isFirstLine = false
+			continue
+		}
 		convertedLine, err := yr.CelsiusToFahrenheitLine(line)
 		if err != nil {
 			log.Printf("Feil for konvertering av Celsius til Fahrenheit i linje: '%s': %v\n", line, err)
