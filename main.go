@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/exec"
 	"strings"
 )
 
@@ -215,39 +214,4 @@ func fAverage() {
 		return
 	}
 	fmt.Printf("Average Temperature: %.2f\n", average)
-}
-
-func minyrKjør() {
-	// Kompilerer main.go filen ved hjelp av 'go build' kommandoen
-	cmd := exec.Command("go", "build", "main.go")
-	err := cmd.Run()
-	if err != nil {
-		fmt.Println("Kompilering feilet:", err)
-		return
-	}
-
-	// Sjekker om den kompilerte filen eksisterer
-	if _, err := os.Stat("./main"); os.IsNotExist(err) {
-		fmt.Println("Kompilert fil ble ikke funnet")
-		return
-	}
-
-	// Setter tillatelse til å kjøre på den kompilerte filen
-	cmd = exec.Command("chmod", "+x", "./main")
-	err = cmd.Run()
-	if err != nil {
-		fmt.Println("Feil ved setting av kjøretillatelse:", err)
-		return
-	}
-
-	// Kjører det kompilerte programmet
-	cmd = exec.Command("./main")
-	err = cmd.Run()
-	if err != nil {
-		fmt.Println("Kjøring av programmet feilet:", err)
-		return
-	}
-
-	// Eventuell annen logikk eller handlinger etter kjøring av programmet
-	fmt.Println("Programmet ble kjørt suksessfullt")
 }
