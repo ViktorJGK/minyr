@@ -87,7 +87,7 @@ func main() {
 		return
 	}
 
-	// konverterer innholdet til string
+	// Konverterer innholdet til string
 	contentStr := string(content)
 
 	// Leter etter linje å erstatte
