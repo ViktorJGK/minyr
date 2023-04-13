@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-//go:generate go build -o minyr.exe main.go && rename main.exe minyr.exe && setx PATH "%PATH%;%cd%" /M
+//go:generate go build -o minyr main.go && mv main minyr && export PATH=$(pwd):$PATH
 
 func main() {
 	fmt.Println("q/exit for å gå ut")
