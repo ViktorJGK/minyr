@@ -40,23 +40,18 @@ func main() {
 					konvert()
 					fmt.Println("filen er generert på nytt")
 					fmt.Println("")
-					fmt.Println("q/exit for å gå ut")
-					fmt.Println("convert: for å konvertere filen")
-					fmt.Println("average: for å få gjennomsnitsstemperatur")
-					fmt.Println("")
+					main()
 
 				} else if input == "n" {
 					fmt.Println("gjør ingenting med filen")
 					fmt.Println("")
-					fmt.Println("q/exit for å gå ut")
-					fmt.Println("convert: for å konvertere filen")
-					fmt.Println("average: for å få gjennomsnitsstemperatur")
-					fmt.Println("")
+					main()
 				}
 			} else {
 				fmt.Println("Konverterer alle målingene gitt i grader Celsius til grade Fahrenheit.")
 				fmt.Println("")
 				konvert()
+				main()
 			}
 
 		}
@@ -72,10 +67,12 @@ func main() {
 			if input == "c" {
 				fmt.Println("Gjennomsnittstemperatur i Celsius er følgende:")
 				cAverage()
+				main()
 
 			} else if input == "f" {
 				fmt.Println("Gjennom snitt temperatur i Fahrenheit er følgene:")
 				fAverage()
+				main()
 			}
 		}
 	}
